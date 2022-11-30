@@ -1,8 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { IsEmail, IsEnum, IsString } from 'class-validator';
 import { BasicEntity } from 'src/common/entities/basic.entity';
-import { Plan } from 'src/travel/entities/plan.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 export enum UserRole {
   Client = 'Client',
@@ -26,7 +25,4 @@ export class User extends BasicEntity {
   @Column({ nullable: true })
   @Exclude()
   refreshToken?: string;
-
-  @ManyToOne(() => Plan, (plan) => plan.id)
-  plan: number;
 }

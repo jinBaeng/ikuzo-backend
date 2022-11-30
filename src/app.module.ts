@@ -6,9 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
-import { TravelModule } from './travel/travel.module';
-import { Plan } from './travel/entities/plan.entity';
-import { Diary } from './travel/entities/diary.eneity';
+import { TravelModule } from './travels/travel.module';
+import { Plan } from './travels/entities/plan.entity';
+import { Diary } from './travels/entities/diary.eneity';
+import { BoardModule } from './boards/board.module';
+import { Board } from './boards/entities/board.entity';
+import { Comment } from './boards/entities/comment.entity';
 
 @Module({
   imports: [
@@ -24,14 +27,16 @@ import { Diary } from './travel/entities/diary.eneity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: true,
+      synchronize: process.env.NODE_ENV !== 'prod',
+      // synchronize: true,
       logging: true,
-      entities: [User, Plan, Diary],
+      entities: [User, Plan, Diary, Board, Comment],
     }),
     UsersModule,
     CommonModule,
     AuthModule,
     TravelModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [],

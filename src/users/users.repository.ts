@@ -13,12 +13,8 @@ export class UserRespository extends Repository<User> {
   }
 
   async createUser(email, password, role) {
-    try {
-      const user = await this.save(this.create({ email, password, role }));
-      return user;
-    } catch (e) {
-      return null;
-    }
+    const user = await this.save(this.create({ email, password, role }));
+    return user;
   }
 
   async updateRefreshToken(userId, { refreshToken }) {

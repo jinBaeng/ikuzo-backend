@@ -1,6 +1,7 @@
 import { IsDate, IsNumber, IsString } from 'class-validator';
 import { BasicEntity } from 'src/common/entities/basic.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Plan extends BasicEntity {
@@ -28,4 +29,7 @@ export class Plan extends BasicEntity {
 
   @Column({ type: 'json', nullable: true })
   dayPerCost?: object;
+
+  @ManyToOne(() => User, (user) => user.id)
+  user: number;
 }
