@@ -18,6 +18,10 @@ export class User extends BasicEntity {
   @IsString()
   password: string;
 
+  @Column()
+  @IsString()
+  nickname: string;
+
   @Column({ type: 'enum', enum: UserRole })
   @IsEnum(UserRole)
   role: UserRole;

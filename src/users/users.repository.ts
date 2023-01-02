@@ -12,8 +12,10 @@ export class UserRespository extends Repository<User> {
     return exists;
   }
 
-  async createUser(email, password, role) {
-    const user = await this.save(this.create({ email, password, role }));
+  async createUser(email, password, role, nickname) {
+    const user = await this.save(
+      this.create({ email, password, role, nickname }),
+    );
     return user;
   }
 
