@@ -1,12 +1,14 @@
 import { IsBoolean, IsString } from 'class-validator';
 import { BasicEntity } from 'src/common/entities/basic.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
 @Entity()
 export class Board extends BasicEntity {
   @ManyToOne(() => User, (user) => user.id)
-  user: number;
+  user: User;
+  @RelationId((board: Board) => board.user)
+  userId: User;
 
   @Column()
   @IsString()
