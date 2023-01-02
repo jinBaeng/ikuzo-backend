@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthDto } from './dto/auth.dto';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async signUp(createUserDto: CreateUserInput): Promise<any> {
+  async signUp(createUserDto: CreateUserInput, res: Response): Promise<any> {
     // Check if user exists
     const userExists = await this.usersRepository.existsUser(
       createUserDto.email,
@@ -30,14 +31,15 @@ export class AuthService {
       createUserDto.email,
       hash,
       createUserDto.role,
+      createUserDto.nickname,
     );
     const tokens = await this.getTokens(newUser.id + '', newUser.email);
     await this.updateRefreshToken(newUser.id + '', tokens.refreshToken);
-
-    return tokens;
+    res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
+    return { accessToken: tokens.accessToken };
   }
 
-  async signIn(data: AuthDto) {
+  async signIn(data: AuthDto, res: Response) {
     // Check if user exists
     const user = await this.usersRepository.existsUser(data.email);
     if (!user) throw new BadRequestException('User does not exist');
@@ -47,7 +49,8 @@ export class AuthService {
       throw new BadRequestException('Password is incorrect');
     const tokens = await this.getTokens(user.id + '', user.email);
     await this.updateRefreshToken(user.id + '', tokens.refreshToken);
-    return tokens;
+    res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
+    return tokens.accessToken;
   }
 
   async logout(userId: string) {
