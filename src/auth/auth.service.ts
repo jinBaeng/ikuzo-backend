@@ -50,7 +50,7 @@ export class AuthService {
     const tokens = await this.getTokens(user.id + '', user.email);
     await this.updateRefreshToken(user.id + '', tokens.refreshToken);
     res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
-    return tokens.accessToken;
+    return { accessToken: tokens.accessToken };
   }
 
   async logout(userId: string) {
