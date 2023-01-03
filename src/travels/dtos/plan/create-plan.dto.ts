@@ -5,7 +5,6 @@ import { Plan } from 'src/travels/entities/plan.entity';
 export class CreatePlanInput extends PickType(Plan, [
   'start',
   'end',
-  'isOverseas',
   'city',
   'totalCost',
   'destination',

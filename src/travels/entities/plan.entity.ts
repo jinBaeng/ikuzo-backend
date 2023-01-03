@@ -22,15 +22,12 @@ export class Plan extends BasicEntity {
   end: Date;
 
   @Column()
-  @IsBoolean()
-  isOverseas: boolean;
-
-  @Column()
   @IsString()
   city: string;
 
   @Column({ nullable: true })
   @IsNumber()
+  @IsOptional()
   totalCost: number;
 
   @Column({ type: 'json' })
@@ -39,5 +36,6 @@ export class Plan extends BasicEntity {
 
   @Column({ type: 'json', nullable: true })
   @IsArray()
-  dayPerCost?: object;
+  @IsOptional()
+  dayPerCost: object;
 }
