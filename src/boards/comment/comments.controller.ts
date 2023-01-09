@@ -33,6 +33,7 @@ export class CommentsController {
     @Body() createCommentInput: CreateCommentInput,
     @Req() req: Request,
   ): Promise<CreateCommentOutput> {
+    console.log(req.user);
     return this.commentService.createComment(createCommentInput, req.user);
   }
 

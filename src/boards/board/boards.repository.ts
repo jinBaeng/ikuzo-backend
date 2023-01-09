@@ -13,7 +13,7 @@ export class BoardsRepository {
 
   async createBoard({ title, content, secret }, userId) {
     try {
-      await this.boardRepoitory.save(
+      const board = await this.boardRepoitory.save(
         this.boardRepoitory.create({
           title,
           content,
@@ -21,6 +21,7 @@ export class BoardsRepository {
           user: userId,
         }),
       );
+      console.log(board);
       return true;
     } catch (error) {
       return false;

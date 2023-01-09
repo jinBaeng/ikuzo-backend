@@ -12,6 +12,8 @@ import { Diary } from './travels/entities/diary.eneity';
 import { BoardModule } from './boards/board.module';
 import { Board } from './boards/entities/board.entity';
 import { Comment } from './boards/entities/comment.entity';
+import { Travel } from './travels/entities/travel.entity';
+import { Destination } from './travels/entities/destination.entity';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { Comment } from './boards/entities/comment.entity';
       synchronize: process.env.NODE_ENV !== 'prod',
       // synchronize: true,
       logging: true,
-      entities: [User, Plan, Diary, Board, Comment],
+      entities: [User, Plan, Diary, Board, Comment, Travel, Destination],
     }),
     UsersModule,
     CommonModule,

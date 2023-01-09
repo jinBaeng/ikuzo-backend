@@ -1,23 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomRepository } from 'src/repositories/custom-repository.decorater';
-import { Raw, Repository } from 'typeorm';
+import { UserRespository } from 'src/users/users.repository';
+import { Repository } from 'typeorm';
+import { CreatePlanInput } from '../dtos/plan/create-plan.dto';
 import { Plan } from '../entities/plan.entity';
 
 @Injectable()
 @CustomRepository(Plan)
 export class planRepository {
   constructor(
-    @InjectRepository(Plan) private readonly planRepository: Repository<Plan>, //  imports: [TypeOrmModule.forFeature([Plan])],
+    @InjectRepository(Plan) private readonly planRepository: Repository<Plan>,
+    private readonly userRepository: UserRespository,
   ) {}
 
-  async createPlan(createPlanInput) {
+  async createPlan(createPlanInput: CreatePlanInput) {
     try {
+      // const thisUser = await this.userRepository.findOne({
+      //   where: { id: user.sub },
+      // });
       const plan = await this.planRepository.save(
         this.planRepository.create({
           ...createPlanInput,
+          // users: [thisUser],
         }),
       );
+
       return plan;
     } catch (error) {
       return null;
@@ -40,6 +48,23 @@ export class planRepository {
         skip: (page - 1) * 6,
         take: 6,
       });
+      return {
+        plans,
+        pages,
+      };
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async showMyPlans(page, userId) {
+    try {
+      const [plans, pages] = await this.planRepository.findAndCount({
+        where: userId,
+        skip: (page - 1) * 6,
+        take: 6,
+      });
+      if (!plans) return null;
       return {
         plans,
         pages,

@@ -1,14 +1,20 @@
 import { PickType } from '@nestjs/mapped-types';
+import { IsArray, IsObject, IsString } from 'class-validator';
 import { BasicOutput } from 'src/common/dtos/output.dto';
 import { Plan } from 'src/travels/entities/plan.entity';
 
 export class CreatePlanInput extends PickType(Plan, [
+  'title',
+  'description',
   'start',
   'end',
   'city',
   'totalCost',
-  'destination',
   'dayPerCost',
-]) {}
+  'users',
+]) {
+  @IsObject()
+  destination: object;
+}
 
 export class CreatePlanOutput extends BasicOutput {}
