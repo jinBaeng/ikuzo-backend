@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
-import { Request } from 'express';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   CreatePlanInput,
   CreatePlanOutput,

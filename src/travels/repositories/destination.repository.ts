@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomRepository } from 'src/repositories/custom-repository.decorater';
+
 import { Repository } from 'typeorm';
 import { Destination } from '../entities/destination.entity';
 
 @Injectable()
-// @CustomRepository(Destination)
 export class DestinationRepository {
   constructor(
     @InjectRepository(Destination)
@@ -15,15 +14,6 @@ export class DestinationRepository {
   async createDestination(destinationName) {
     try {
       //좌표 구하거나 받아서 하기
-      console.log(destinationName);
-      // dayPerTravel.forEach((destination, day) => {
-      //   const destination = await this.destinationRepository.save(
-      //     this.destinationRepository.create({
-
-      //     })
-      //   );
-      // });
-
       const destination = await this.destinationRepository.save(
         this.destinationRepository.create({
           name: destinationName,

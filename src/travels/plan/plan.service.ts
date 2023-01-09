@@ -22,15 +22,18 @@ export class PlanService {
     createPlanInput: CreatePlanInput,
   ): Promise<CreatePlanOutput> {
     try {
+      //계획 생성
       const plan = await this.planRepository.createPlan(createPlanInput);
       if (!plan) return { ok: false, message: 'failed to create plan' };
 
+      //사용자의 계획에서 여행지만 받기 ex) {"1":[{"1":"석가탑"} , {"2":"석굴암"}],"2":[{"1":"황룡사"},{"2":"다보탑"}],"3":[{"1":"첨성대"}]}
       const travel = createPlanInput.destination;
+
       Object.keys(travel).forEach(async (day) => {
-        const numberDay = Number(day);
-        console.log(day);
+        const numberDay = Number(day); // 여행 몇번째 날 인지
         travel[day].forEach(async (destination) => {
-          const order = +Object.keys(destination)[0];
+          const order = +Object.keys(destination)[0]; // 그 날에 갈 곳 중에 순서
+          // DB에서 목적지 정보가 있는 지 확인 후 추가 or 그냥 진행
           const checkDestination =
             await this.destinationRepository.checkDestination(
               Object.values(destination)[0],
@@ -43,6 +46,7 @@ export class PlanService {
             planId: plan.id,
             destinationId: checkDestination.id,
           };
+          // 각 날자와 순서별로 여행테이블에 여행 생성
           const travel = await this.travelRepositoy.creatTravel(
             createTravelInput,
           );

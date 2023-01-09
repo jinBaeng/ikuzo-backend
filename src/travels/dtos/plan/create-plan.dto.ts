@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/mapped-types';
-import { IsArray, IsObject, IsString } from 'class-validator';
+import { IsObject } from 'class-validator';
 import { BasicOutput } from 'src/common/dtos/output.dto';
 import { Plan } from 'src/travels/entities/plan.entity';
 

@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomRepository } from 'src/repositories/custom-repository.decorater';
 import { Repository } from 'typeorm';
 import { Travel } from '../entities/travel.entity';
 
 @Injectable()
-// @CustomRepository(Travel)
 export class TravelRepository {
   constructor(
     @InjectRepository(Travel)
